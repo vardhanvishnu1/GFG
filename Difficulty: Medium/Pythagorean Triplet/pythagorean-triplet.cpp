@@ -1,24 +1,47 @@
 class Solution {
-public:
+  public:
     bool pythagoreanTriplet(vector<int>& arr) {
-        int maxVal = *max_element(arr.begin(), arr.end());
-        vector<bool> freq(maxVal + 1, false);
-
-        for(int x : arr)
-            freq[x] = true;
-
+        // code here
         int n = arr.size();
+    int maxEle = 0;
+    for (int ele: arr) 
+        maxEle = max(maxEle, ele);
 
-        for(int i = 0; i < n; i++){
-            for(int j = i + 1; j < n; j++){
-                long long sum = 1LL*arr[i]*arr[i] + 1LL*arr[j]*arr[j];
-                int c = sqrt(sum);
+    // Visited array to mark the elements
+    vector<bool> vis(maxEle + 1, 0);
 
-                if(c*c == sum && c <= maxVal && freq[c])
-                    return true;
+    // Marking each element of input array
+    for (int ele: arr)
+        vis[ele] = true;
+
+    // Iterate for all possible a
+    for (int a = 1; a < maxEle + 1; a++) {
+
+        // If a is not there
+        if (vis[a] == false) continue;
+
+        // Iterate for all possible b
+        for (int b = 1; b < maxEle + 1; b++) {
+
+            // If b is not there
+        	if (vis[b] == false)
+            	continue;
+
+            // calculate c value to form a pythagorean triplet
+            int c = sqrt(a * a + b * b);
+
+            // If c^2 is not a perfect square or c exceeds the
+          	// maximum value
+            if ((c * c) != (a * a + b * b) || c > maxEle)
+                continue;
+
+            // If there exists c in the original array,
+            // we have found the 
+             if (vis[c] == true) {
+                return true;
             }
         }
-
-        return false;
+    }
+    return false;
     }
 };
