@@ -1,17 +1,14 @@
 class Solution {
   public:
     int setBit(int n) {
-        // Write Your Code here
+        // code here
         int x = n;
-        int pos = 0;
-        while(x>0){
-            if(!(x&1)){
-                break;
-            }
-            pos++;
-            x>>=1;
+        int cnt = 0;
+        while(x>0&&(x&1)){
+            
+            cnt++;
+            x/=2;
         }
-        int mask = 1<<pos;
-        return mask|n;
+        return (1<<cnt) + n;
     }
 };
