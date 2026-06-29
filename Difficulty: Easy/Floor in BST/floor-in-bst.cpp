@@ -14,16 +14,19 @@ class Node {
 
 class Solution {
   public:
-    void solve(Node*& prev,Node* root, int k){
-        if(!root) return ;
-        if(root->data<=k) { prev = root;solve(prev,root->right,k);}
-        else solve(prev,root->left,k);
-    }
+  void solve(int& ans,Node* root, int k){
+     if(!root) return;
+     if(root->data<=k){
+         ans = root->data;
+         solve(ans,root->right,k);
+     }
+     else solve(ans,root->left,k);
+     
+  }
     int findMaxFork(Node* root, int k) {
         // code here
-        Node* prev = NULL;
-        solve(prev,root,k);
-        if(!prev) return -1;
-        return prev->data;
+        int ans = -1;
+        solve(ans,root,k);
+        return ans;
     }
 };
