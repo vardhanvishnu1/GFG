@@ -4,26 +4,29 @@ class Solution {
         // Code here
         vector<vector<pair<int,int>>>adj(V);
         for(int i=0;i<edges.size();i++){
-            adj[edges[i][0]].push_back({edges[i][1],edges[i][2]});
-            adj[edges[i][1]].push_back({edges[i][0],edges[i][2]});
+            int s = edges[i][0];
+            int d = edges[i][1];
+            int w = edges[i][2];
+            adj[s].push_back({d,w});adj[d].push_back({s,w});
         }
         vector<int>dist(V,INT_MAX);
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
         dist[src] = 0;
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
         pq.push({0,src});
         while(!pq.empty()){
-            auto [d,node] = pq.top();
-            pq.pop();if(d > dist[node]) continue; 
-            for(auto [neigh,neigh_ds] : adj[node]){
-                if(dist[neigh]>d+neigh_ds){
-                    dist[neigh] = d+neigh_ds;
-                    pq.push({d+neigh_ds,neigh});
+            int curr = pq.top().second;
+            int d = pq.top().first;
+            pq.pop();
+            if(dist[curr]<d) continue;
+            for(auto neigh : adj[curr]){
+                int node = neigh.first;
+                int w = neigh.second;
+                if(dist[node]>d+w){
+                    dist[node] = d+w;
+                    pq.push({d+w,node});
                 }
             }
         }
-         for(int i=0;i<V;i++){
-                if(dist[i]==INT_MAX) dist[i] = -1;
-            }
-    return dist;
+        return dist;
     }
 };
