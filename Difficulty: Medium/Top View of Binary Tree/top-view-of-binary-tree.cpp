@@ -1,31 +1,34 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+*/
+
 class Solution {
-public:
+  public:
     vector<int> topView(Node *root) {
-        vector<int> ans;
-        if(!root) return ans;
-
-        map<int,int> mp;
-        queue<pair<Node*,int>> q;
-
+        // code here
+        vector<int>ans;
+        queue<pair<Node*,int>>q;
+        map<int,int>mp;
         q.push({root,0});
-
         while(!q.empty()){
-            auto [node,hd] = q.front();
+            auto [node,pos] = q.front();
             q.pop();
-
-            if(!mp.count(hd))
-                mp[hd] = node->data;
-
-            if(node->left)
-                q.push({node->left,hd-1});
-
-            if(node->right)
-                q.push({node->right,hd+1});
-        }
-
-        for(auto &p : mp)
-            ans.push_back(p.second);
-
+            if(!mp.count(pos)) mp[pos] = node->data;
+            if(node->left) q.push({node->left,pos-1});
+            if(node->right) q.push({node->right,pos+1});
+        } 
+        for(auto el : mp) ans.push_back(el.second);
         return ans;
     }
 };
